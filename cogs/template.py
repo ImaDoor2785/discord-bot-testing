@@ -7,9 +7,12 @@ Version: 6.1.0
 """
 
 
+from http import client
+import random
 import discord
 from discord.ext import commands
 from discord.ext.commands import Context
+
 
 # Here we name the cog and create a new class for the cog.
 class Template(commands.Cog, name="template"):
@@ -36,12 +39,20 @@ class Template(commands.Cog, name="template"):
     async def kill(self,ctx, user: discord.User ) -> None:
         """ Do you dare?? """
         # Then responds in the channel with this messag
-        await ctx.send(f"{user.name} Died")
+        await ctx.send(f"{user.mention} Died")
 
     @commands.Cog.listener("on_message")
     async def listener_one(self, message):
      if message.content == "hi":
         await message.channel.send("hello", reference=message)
+
+    @commands.Cog.listener("on_message")
+    async def listener_seven(self, message):
+     if message.channel.name == 'random-nonsense':
+      if message.author == discord.Client.user: return
+      if message.author.bot: return
+      emojiii = self.bot.get_emoji(1170200140158619668)
+      await message.add_reaction(emojiii)
 
 
     @commands.Cog.listener("on_message")
@@ -70,6 +81,43 @@ class Template(commands.Cog, name="template"):
      if message.content == "ping":
         await message.channel.send("pong", reference=message)
         
+
+    @commands.Cog.listener("on_message")
+    async def listener_six(self, message):
+     if message.content == "beep boop":
+        await message.channel.send("boop beep", reference=message)
+
+    @commands.Cog.listener("on_message")
+    async def listener_eight(self, message):
+     if message.channel.name == 'random-nonsense':
+      if message.author == discord.Client.user: return
+      if message.author.bot: return
+      reply = [
+            "no",
+            "yes",
+            "questioning your intelligence",
+            "Without a doubt.",
+            "Kill yourself now!",
+            "NOOT NOOT",
+            "U good?",
+           # "Outlook good.",
+           # "Yes.",
+           # "Signs point to yes.",
+           # "Reply hazy, try again.",
+           # "Ask again later.",
+           # "Better not tell you now.",
+           # "Cannot predict now.",
+           # "Concentrate and ask again later.",
+           # "Don't count on it.",
+           # "My reply is no.",
+           # "My sources say no.",
+            #"Outlook not so good.",
+            "uhhhhhh",
+            ":D",
+        ]
+      await message.channel.send(random.choice(reply), reference=message)
+
+
 # And then we finally add the cog to the bot so that it can load, unload, reload and use it's content.
 async def setup(bot) -> None:
     await bot.add_cog(Template(bot))
